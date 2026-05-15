@@ -5,7 +5,6 @@
 # When a list is described its described as a list of x where x is the type of variable within it
 # IE: ["apple", "pear", "grape"] is a list of strings (anything inside "" OR '' are considered strings)
 
-# Logging = output. How you'll figure out whats going wrong
 import logging
 
 # Built in AP imports
@@ -13,7 +12,7 @@ from BaseClasses import Item, ItemClassification
 
 # These come from the other files in this example. If you want to see the source ctrl + click the name
 # You can also do that ctrl + click for any functions to see what they do
-from .Types import ItemData, ChapterType, APSkeletonItem, chapter_type_to_name
+from .Types import ItemData, ChapterType, DeathbulgeItem, chapter_type_to_name
 from .Locations import get_total_locations
 from typing import List, Dict, TYPE_CHECKING
 
@@ -64,7 +63,7 @@ def create_itempool(world: "APSkeletonWorld") -> List[Item]:
 # This is a generic function to create a singular item
 def create_item(world: "APSkeletonWorld", name: str) -> Item:
     data = item_table[name]
-    return APSkeletonItem(name, data.classification, data.ap_code, world.player)
+    return DeathbulgeItem(name, data.classification, data.ap_code, world.player)
 
 # Another generic function. For creating a bunch of items at once!
 def create_multiple_items(world: "APSkeletonWorld", name: str, count: int,
@@ -73,7 +72,7 @@ def create_multiple_items(world: "APSkeletonWorld", name: str, count: int,
     itemlist: List[Item] = []
 
     for i in range(count):
-        itemlist += [APSkeletonItem(name, item_type, data.ap_code, world.player)]
+        itemlist += [DeathbulgeItem(name, item_type, data.ap_code, world.player)]
 
     return itemlist
 
