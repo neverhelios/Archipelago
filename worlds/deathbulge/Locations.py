@@ -1,88 +1,173 @@
-# Look at init or Items.py for more information on imports
-from typing import Dict, TYPE_CHECKING
-import logging
+from typing import Dict, List
+from BaseClasses import Location
 
-from .Types import LocData
 
-if TYPE_CHECKING:
-    from . import DeathbulgeWorld
+class DeathbulgeLocation(Location):
+    game: str = "Deathbulge"
 
-def did_include_extra_locations(world: "DeathbulgeWorld") -> bool:
-    return bool(world.options.ExtraLocations)
 
-# This is used by ap and in Items.py
-# Theres a multitude of reasons to need to grab how many locations there are
-def get_total_locations(world: "DeathbulgeWorld") -> int:
-    # This is the total that we'll keep updating as we count how many locations there are
-    total = 0
-    for name in location_table:
-        # If we did not turn on extra locations (see how readable it is with that thing from the top)
-        # AND the name of it is found in our extra locations table, then that means we dont want to count it
-        # So continue moves onto the next name in the table
-        if not did_include_extra_locations(world) and name in extra_locations:
-            continue
+dream_locations = [
+    "Dream03Treasure01",
+    "Dream03Treasure02",
+    "Dream03Treasure03",
+    "Dream05Treasure01",
+    "Dream04Treasure02",
+    "Dream04Treasure01",
+    "Dream04Treasure03",
+]
 
-        # If the location is valid though, count it
-        if is_valid_location(world, name):
-            total += 1
+bopstead_locations = [
+    "[Treasure] PrizeTicketMadam",
+    "[Treasure] MODPODClass",
+    "[Treasure] PartyHouseReward",
+    "[Treasure] GeorgeousReward",
+    "[Treasure] NelReward",
+    "Bopstead01Treasure01",
+    "[Treasure] FoggyRewardPatch",
+    "[Treasure] DaemoPatch",
+    "Bopstead03Treasure01",
+    "Bopstead04Treasure01",
+    "[Treasure] PrizeTicketBarry",
+    "[Treasure] PrizeTicketBrioche",
+    "[Treasure] PrizeTicketPlat",
+]
 
-    return total
+tonewood_locations = [
+    "Tonewood01Treasure01",
+    "Tonewood02Treasure01",
+    "Tonewood03Treasure01",
+    "Tonewood03Treasure02",
+    "Tonewood04Treasure01",
+    "Tonewood06Treasure01",
+    "Tonewood08Treasure01",
+    "[Treasure] TonewoodGig02-Shrubbanshee",
+    "Tonewood04Treasure02",
+    "Tonewood06Treasure02",
+    "Tonewood08Treasure02",
+    "Tonewood08Treasure03",
+    "[Treasure] GillianFork",
+    "[Treasure] PrizeTicketJim",
+]
 
-def get_location_names() -> Dict[str, int]:
-    # This is just a fancy way of getting all the names and data in the location table and making a dictionary thats {name, code}
-    # If you have dynamic locations then you want to add them to the dictionary as well
-    names = {name: data.ap_code for name, data in location_table.items()}
+claire_hair_locations = [
+    "Claire02Treasure01",
+    "Claire06Treasure01",
+    "Claire04Treasure01",
+    "Claire04Treasure02",
+    "Claire07Treasure01",
+    "[Treasure] ClaireGig03-Madam",
+    "Claire07Treasure02",
+    "Claire05Treasure01",
+]
 
-    return names
+basement_locations = [
+    "[Treasure] BasementGig02-Whale",
+    "[Treasure] BasementGig04-Shutup",
+    "Basement03Treasure01",
+    "Basement06Treasure01",
+    "[Treasure] BasementGig05-Cuttle",
+    "[Treasure] BasementGig01-Cuttlebro",
+    "Basement06Treasure02",
+    "Basement06Treasure03",
+    "Basement04Treasure01",
+    "Basement03Treasure02",
+    "Basement03Treasure03",
+    "Basement05Treasure01",
+    "Basement02Treasure01",
+    "Whale25Treasure",
+    "Basement02Treasure02",
+    "[Treasure] PrizeTicketBase",
+]
 
-# The check to make sure the location is valid
-# I know it looks like the same as when we counted it but thats because this is an example
-# Things get complicated fast so having a back up is nice
-def is_valid_location(world: "DeathbulgeWorld", name) -> bool:
-    if not did_include_extra_locations(world) and name in extra_locations:
-        return False
-    
-    return True
+the_bus_locations = [
+    "TheBus02Treasure01",
+    "TheBus05Treasure01",
+    "TheBus05Treasure02",
+    "TheBus08Treasure02",
+    "TheBus08Treasure01",
+    "TheBus09Treasure01",
+    "TheBus10Treasure01",
+    "TheBus10Treasure02",
+    "TheBus11Treasure01",
+    "[Treasure] TheBusGig02-Weaver",
+    "[Treasure] TheBusGig01-Glamourella",
+    "TheBus10Treasure03",
+    "TheBus08Treasure03",
+    "TheBus05Treasure03",
+    "[Treasure] PrizeTicketBus",
+    "[Treasure] 13DeckKeycard",
+    "[Treasure] 14DeckKeycard",
+]
 
-# You might need more functions as well so be liberal with them
-# My advice, if you are about to type the same thing in a second time, turn it into a function
-# Even if you only do it once you can turn it into a function too for organization
+hoho_locations = [
+    "Hoho02Treasure01",
+    "Hoho02Treasure02",
+    "Hoho02Treasure03",
+    "Hoho02Treasure04",
+    "Hoho01Treasure01",
+    "Hoho02Treasure05",
+    "Hoho01Treasure02",
+    "[Treasure] PrizeTicketHoho",
+    "Hoho02Treasure06",
+]
 
-# Heres where you do the next fun part of listing out all those locations
-# Its a lot
-# My advice, zone out for half an hour listening to music and hope you wake up to a completed list
-deathbulge_locations = {
-    # You can take a peak at Types.py for more information but,
-    # LocData is code, region in this instance
-    # Regions will be explained more in Regions.py
-    # But just know that it's mostly about organization
-    # Place locations together based on where they are in the game and what is needed to get there
-    "A Fake Location Name": LocData(20050100, "Bucharest"),
-    "A really good restaurant": LocData(20050101, "Brașov"),
-    "Nuketown": LocData(20050103, "Green Hill Zone - Act 1"),
-    "Nuketown 2": LocData(20050104, "Green Hill Zone - Act 1"),
-    "Talk to Sonic": LocData(20050105, "Green Hill Zone - Act 2"),
-    "Talk to Captain Price": LocData(20050106, "Green Hill Zone - Act 3"),
-    "TMNT Hangout Spot": LocData(20050107, "The Sewer"),
-    "Above TMNT Hangout Spot": LocData(20050108, "The Sewer"),
-    "Coughing Baby Pickup": LocData(20050109, "The Sewer"),    
-}
+lab_locations = [
+    "Lab03Treasure01",
+    "Lab04Treasure01",
+    "Lab07Treasure01",
+    "Lab08Treasure01",
+    "[Treasure] LabGig02-WIP",
+    "Lab01Treasure01",
+    "Lab04Treasure02",
+    "Lab07Treasure02",
+    "Lab09Treasure01",
+    "Lab10Treasure01",
+    "Lab12Treasure01",
+    "[Treasure] PrizeTicketLab",
+    "Lab10Treasure02",
+]
 
-extra_locations = {
-    "ml7's house": LocData(20050102, "Sibiu"),
-}
+pokalyps_locations = [
+    "Pokalyps01Treasure01",
+    "Pokalyps02Treasure01",
+    "Pokalyps02Treasure02",
+    "Pokalyps04Treasure01",
+    "Pokalyps05Treasure01",
+    "Pokalyps06Treasure01",
+    "Pokalyps07Treasure01",
+    "Pokalyps09Treasure01",
+    "Pokalyps05Treasure02",
+    "Pokalyps10Treasure01",
+    "Pokalyps01Treasure02",
+    "[Treasure] PrizeTicketPok",
+]
 
-# Like in Items.py, breaking up the different locations to help with organization and if something special needs to happen to them
-event_locations = {
-    "Beat Final Boss": LocData(20050110, "Big Hole in the Floor")
-}
+claire_lower_locations = [
+    "ClaireLower01Treasure01",
+    "ClaireLower02Treasure01",
+    "ClaireLower03Treasure02",
+    "ClaireLower04Treasure01",
+    "ClaireLower03Treasure01",
+    "ClaireLower03Treasure03",
+    "ClaireLower04Treasure02",
+]
 
-# Also like in Items.py, this collects all the dictionaries together
-# Its important to note that locations MUST be bigger than progressive item count and should be bigger than total item count
-# Its not here because this is an example and im not funny enough to think of more locations
-# But important to note
-location_table = {
-    **deathbulge_locations,
-    **extra_locations,
-    **event_locations
+
+# TODO: Look in the code where they are
+misc_locations = []
+
+
+regions_to_locations: Dict[str, List[str]] = {
+    "Menu": [],
+    "Dream": dream_locations,
+    "Bopstead": bopstead_locations,
+    "Tonewood": tonewood_locations,
+    "Claire Hair": claire_hair_locations,
+    "Basement": basement_locations,
+    "The Bus": the_bus_locations,
+    "Hoho": hoho_locations,
+    "Lab": lab_locations,
+    "Pokalyps": pokalyps_locations,
+    "Claire lower": claire_lower_locations,
+    "Battle of the bands": [],
 }

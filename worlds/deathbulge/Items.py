@@ -1,166 +1,187 @@
-# So the goal here is to have a catalog of all the items in your game
-# To correctly generate a games items they need to be bundled in a list
-# A list in programming terms is anything in square brackets [] to put it simply
-
-# When a list is described its described as a list of x where x is the type of variable within it
-# IE: ["apple", "pear", "grape"] is a list of strings (anything inside "" OR '' are considered strings)
-
-import logging
-
-# Built in AP imports
 from BaseClasses import Item, ItemClassification
+from typing import TypedDict, List
 
-# These come from the other files in this example. If you want to see the source ctrl + click the name
-# You can also do that ctrl + click for any functions to see what they do
-from .Types import ItemData, ChapterType, DeathbulgeItem, chapter_type_to_name
-from .Locations import get_total_locations
-from typing import List, Dict, TYPE_CHECKING
+base_id = 50173000
 
-# This is just making sure nothing gets confused dw about what its doing exactly
-if TYPE_CHECKING:
-    from . import APSkeletonWorld
 
-# If you're curious about the -> List[Item] that is a syntax to make sure you return the correct variable type
-# In this instance we're saying we only want to return a list of items
-# You'll see a bunch of other examples of this in other functions
-# It's main purpose is to protect yourself from yourself
-def create_itempool(world: "APSkeletonWorld") -> List[Item]:
-    # This is the empty list of items. You'll add all the items in the game to this list
-    itempool: List[Item] = []
+class DeathbulgeItem(Item):
+    name: str = "Deathbulge"
 
-    # In this function is where you would remove any starting items that you add in options such as starting chapter
-    # This is also the place you would add dynamic amounts of items from options
-    # I can point to Sly Cooper and the Thievious Raccoonus since I did that
 
-    # This is a good place to grab anything you need from options
-    starting_chapter = chapter_type_to_name[ChapterType(world.options.StartingChapter)]
+class ItemDict(TypedDict):
+    name: str
+    count: int
+    classification: ItemClassification
 
-    # For this example I'll make it so there is a starting chapter
-    # We loop through all the chapters in the my_chapter section
-    for chapter in ap_skeleton_chapters.keys():
-        # If the starting chapter equals the chapter we're looking at skip it
-        # We skip it since we dont want to add the chapter the player started with to the item pool
-        print("-------------------------")
-        print(starting_chapter)
-        print("-------------------------")
-        if starting_chapter == chapter:
-            continue
-        # Otherwise then we create an item with that name and add it to the item pool
-        else:
-            itempool.append(create_item(world, chapter))
-    
-    # It's up to you and how you want things organized but I like to deal with victory here
-    # This creates your win item and then places it at the "location" where you win
-    victory = create_item(world, "Victory")
-    world.multiworld.get_location("Beat Final Boss", world.player).place_locked_item(victory)
 
-    # Then junk items are made
-    # Check out the create_junk_items function for more details
-    itempool += create_junk_items(world, get_total_locations(world) - len(itempool) - 1)
+useful_skip_balancing: ItemClassification = ItemClassification(
+    ItemClassification.useful + ItemClassification.skip_balancing
+)
+useful_progression: ItemClassification = ItemClassification(ItemClassification.progression + ItemClassification.useful)
 
-    return itempool
+# Todo: Add beats
 
-# This is a generic function to create a singular item
-def create_item(world: "APSkeletonWorld", name: str) -> Item:
-    data = item_table[name]
-    return DeathbulgeItem(name, data.classification, data.ap_code, world.player)
 
-# Another generic function. For creating a bunch of items at once!
-def create_multiple_items(world: "APSkeletonWorld", name: str, count: int,
-                          item_type: ItemClassification = ItemClassification.progression) -> List[Item]:
-    data = item_table[name]
-    itemlist: List[Item] = []
+# TODO: Progressive / Countable ?
+treasure_stocks_items: List[ItemDict] = [
+    {"name": "[Stock] Increase 1 (Tonewood01Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Tonewood06Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Claire06Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Claire07Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Claire05Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (ClaireLower02Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (ClaireLower04Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Basement03Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Basement06Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Basement03Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Basement02Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (TheBus05Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (TheBus08Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (TheBus08Treasure03)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Lab01Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Lab04Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Lab07Treasure02)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Pokalyps01Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Pokalyps07Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Dream04Treasure01)", "count": 1, "classification": useful_skip_balancing},
+    {"name": "[Stock] Increase 1 (Dream04Treasure03)", "count": 1, "classification": useful_skip_balancing},
+]
 
-    for i in range(count):
-        itemlist += [DeathbulgeItem(name, item_type, data.ap_code, world.player)]
 
-    return itemlist
+treasure_legendary_beats_items: List[ItemDict] = [
+    {"name": "[Beat] Bansheebash", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Beat] Absolute Belter", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Beat] Cuttlebuddy", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Beat] Makeshift Beat", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Beat] Starstrike", "count": 1, "classification": ItemClassification.progression},
+]
 
-# Finally, where junk items are created
-def create_junk_items(world: "APSkeletonWorld", count: int) -> List[Item]:
-    trap_chance = world.options.TrapChance.value
-    junk_pool: List[Item] = []
-    junk_list: Dict[str, int] = {}
-    trap_list: Dict[str, int] = {}
 
-    # This grabs all the junk items and trap items
-    for name in item_table.keys():
-        # Here we are getting all the junk item names and weights
-        ic = item_table[name].classification
-        if ic == ItemClassification.filler:
-            junk_list[name] = junk_weights.get(name)
+treasure_patches_items: List[ItemDict] = [
+    {"name": "[Patch] God Brain", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] HELF", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Fat Punch Five", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Beauty in Suffering", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Luminous Kid", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Jen & The Regens", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] DJ Beatseek", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Barry Club", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] BotB Patch", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Mega Def", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Chuckridge Cuttlebrander", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] The NOW NOW NOWs", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] WELF", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] U WANT SUM", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Purple Lightning", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] THREE BEAT MIX PATCH", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Recently Hatched", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Pokalyps", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Patch] Savant", "count": 1, "classification": ItemClassification.useful},
+]
 
-        # This is for traps if your randomization includes it
-        # It also grabs the trap weights from the options page
-        elif trap_chance > 0 and ic == ItemClassification.trap:
-            if name == "Forcefem Trap":
-                trap_list[name] = world.options.ForcefemTrapWeight.value
-            elif name == "Speed Change Trap":
-                trap_list[name] = world.options.SpeedChangeTrapWeight.value
 
-    # Where all the magic happens of adding the junk and traps randomly
-    # AP does all the weight management so we just need to worry about how many are created
-    for i in range(count):
-        if trap_chance > 0 and world.random.randint(1, 100) <= trap_chance:
-            junk_pool.append(world.create_item(
-                world.random.choices(list(trap_list.keys()), weights=list(trap_list.values()), k=1)[0]))
-        else:
-            junk_pool.append(world.create_item(
-                world.random.choices(list(junk_list.keys()), weights=list(junk_list.values()), k=1)[0]))
+treasure_merch_items: List[ItemDict] = [
+    {"name": "[Merch] Emergency Horn", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] Clearbuds", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] Flipped Cap", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] Silenceblaster", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] The Y'almighty", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] Diva Music Box", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] Audio Greeting Card", "count": 1, "classification": ItemClassification.useful},
+]
 
-    return junk_pool
 
-# Time for the fun part of listing all of the items
-# Watch out for overlap with your item codes
-# These are just random numbers dont trust them PLEASE
-# I've seen some games that dynamically add item codes such as DOOM as well
-ap_skeleton_items = {
-    # Progression items
-    "A cute rat": ItemData(20050001, ItemClassification.progression),
-    "Estrogen": ItemData(20050002, ItemClassification.progression),
-    "Testosterone": ItemData(20050003, ItemClassification.progression),
+treasure_mod_items: List[ItemDict] = [
+    {"name": "[Mod] Beefcake Bassquake", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Crowdsurf", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Reckless Shredding", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Heartwarmer", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Intimidate", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] The Great Unjoying", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Fresh Twist", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Everybody Broken Bones", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Erasure", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] GONG", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Zero Hertz", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Beefy Double", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Heart Kickstart", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Crashy Crescendo", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Bloody Hell", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Whale Music", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Upbeat", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Dazzling Shred", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Let Me Try Something", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Big Angry Riff of Fury", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Weaver of Darkness", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Surging Sorrow", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Shred of the Dead", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Good Vibe Preservation", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Power Slide", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Osculate in 7/8", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Robin Hunk Special", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Pyrotechnics", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] ugh", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] REMIX Briff", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Beam Team", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Axe of Righteousness", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Hypercussion", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] ALT_FX", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Palm Destroyer", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Colossal Cuss Out", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Vicious Sacrifice", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] BOOM.WAV", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] The Power of Friendship", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Graveyard Shuffle", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Dr. Tonebone", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Eruptive Damnation", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Total Reinterpretation", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Merch] SIDD X-TR3M3", "count": 1, "classification": ItemClassification.useful},
+]
 
-    # Useful items
-    "A good friend": ItemData(20050004, ItemClassification.useful),
-    "500 cigarettes": ItemData(20050005, ItemClassification.useful),
-    "Crime Baby": ItemData(20050006, ItemClassification.useful),
 
-    # Victory is added here since in this organization it needs to be in the default item pool
-    "Victory": ItemData(20050007, ItemClassification.progression)
-}
+# TODO: Progressive / Countable ?
+treasure_old_prize_draw_ticket_items: List[ItemDict] = [
+    {"name": "[Key Merch] Old Prize Draw Ticket 1", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 2", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 3", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 4", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 5", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 6", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 7", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 8", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 9", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Old Prize Draw Ticket 10", "count": 1, "classification": ItemClassification.progression},
+]
 
-# I like to split up the items so that its easier to look at and since sometimes you only need to look at one specific type of list
-# An example of that is in create_itempool where I simulated having a starting chapter
-ap_skeleton_chapters = {
-    "Green Hill Zone": ItemData(20050008, ItemClassification.progression),
-    "Romania": ItemData(20050009, ItemClassification.progression),
-    "The Sewer": ItemData(20050010, ItemClassification.progression)
-}
+treasure_progression_items: List[ItemDict] = [
+    {"name": "[Key Merch] Your Inner Boot", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] 16th Deck Keycard", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] 13th Deck Keycard", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] 14th Deck Keycard", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Class Changer", "count": 1, "classification": useful_progression},
+]
 
-# In the way that I made items, I added a way to specify how many of an item should exist
-# That's why junk has a 0 since how many are created is in the create_junk_items
-# There is a better way of doing this but this is my jank
-junk_items = {
-    # Junk
-    "An Old Gamecube": ItemData(20050011, ItemClassification.filler, 0),
-    "Coughing Baby": ItemData(20050012, ItemClassification.filler, 0),
+real_fillers_items: List[ItemDict] = [
+    {"name": "Treasure Money", "count": 12, "classification": ItemClassification.filler},
+]
 
-    # Traps
-    "Forcefem Trap": ItemData(20050013, ItemClassification.trap, 0),
-    "Speed Change Trap": ItemData(20050014, ItemClassification, 0)
-}
+treasure_misc_items: List[ItemDict] = [
+    {"name": "[Key Merch] Shiny Spiky Thing", "count": 1, "classification": ItemClassification.filler},
+    {"name": "[Key Merch] Shiny Spiky Thing (Fork)", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Key Merch] Barry's Tea Party", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Key Merch] Glam Reader", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Beat] Rinna", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Beat] RH", "count": 1, "classification": ItemClassification.useful},
+] + real_fillers_items
 
-# Junk weights is just how often an item will be chosen when junk is being made
-# Bigger item = more likely to show up
-junk_weights = {
-    "An Old Gamecube": 40,
-    "Coughing Baby": 20
-}
 
-# This makes a really convenient list of all the other dictionaries
-# (fun fact: {} is a dictionary)
-item_table = {
-    **ap_skeleton_items,
-    **ap_skeleton_chapters,
-    **junk_items
-}
+all_treasure_items: List[ItemDict] = (
+    treasure_stocks_items
+    + treasure_legendary_beats_items
+    + treasure_patches_items
+    + treasure_merch_items
+    + treasure_mod_items
+    + treasure_old_prize_draw_ticket_items
+    + treasure_progression_items
+    + treasure_misc_items
+)

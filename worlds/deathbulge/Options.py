@@ -1,78 +1,36 @@
-from typing import List, Dict, Any
 from dataclasses import dataclass
-from worlds.AutoWorld import PerGameCommonOptions
-from Options import Choice, OptionGroup, Toggle, Range
+from Options import Toggle, Range, Choice, PerGameCommonOptions
 
-# If youve ever gone to an options page and seen how sometimes options are grouped
-# This is that
-def create_option_groups() -> List[OptionGroup]:
-    option_group_list: List[OptionGroup] = []
-    for name, options in deathbulge_option_groups.items():
-        option_group_list.append(OptionGroup(name=name, options=options))
 
-    return option_group_list
+class StartWithFastTravel(Toggle):
+    """Activates the fast travel earlier than in the base game. (Not Implemented)"""
 
-class StartingChapter(Choice):
-    """
-    Determines which chapter you'll start with.
-    When you grab choice you'll get the associated number.
-    IE: If the player chooses the sewer then when you go to call StartingChapter you'll get 3
-    When displaying the options names on the site, _ will become spaces and the word option will go away.
-    """
-    display_name = "Starting Chapter"
-    option_green_hill_zone = 1
-    option_romania = 2
-    option_the_sewer = 3
-    default = 1
+    display_name = "Start with fasttTravel"  # this is the option name as it's displayed to the user on the webhost and in the spoiler log
 
-class ExtraLocations(Toggle):
-    """
-    This will enable the extra locations option. Toggle is just true or false.
-    """
-    display_name = "Add Extra Locations"
 
-class TrapChance(Range):
-    """
-    Determines the chance for any junk item to become a trap.
-    Set it to 0 for no traps.
-    Range is in fact a range. You can set the limits and its default.
-    """
-    display_name = "Trap Chance"
-    range_start = 0
-    range_end = 100
+class TeamStart(Choice):
+    """Allows to start with more team members than vanilla. (Not Implemented)."""
+
+    display_name = "Team start"
+    option_faye = 0
+    option_ian = 1
+    option_briff = 2
+    alias_faye_and_ian = 1
+    alias_all = 2
     default = 0
 
-class ForcefemTrapWeight(Range):
-    """
-    The weight of forcefem traps in the trap pool.
-    Does really cool stuff to your body.
-    """
-    display_name = "Forcefem Trap Weight"
-    range_start = 0
-    range_end = 100
-    default = 100
 
-class SpeedChangeTrapWeight(Range):
-    """
-    The weight of speed change traps in the trap pool.
-    Speed change traps change the game speed for x seconds.
-    """
-    display_name = "Speed Change Trap Weight"
+class StartingMoney(Range):
+    """Set the starting money of your party. (Not Implemented)"""
+
+    display_name = "Final Boss HP"
     range_start = 0
-    range_end = 100
-    default = 25
+    range_end = 10000
+    default = 0
+
 
 @dataclass
 class DeathbulgeOptions(PerGameCommonOptions):
-    StartingChapter:            StartingChapter
-    ExtraLocations:             ExtraLocations
-    TrapChance:                 TrapChance
-    ForcefemTrapWeight:         ForcefemTrapWeight
-    SpeedChangeTrapWeight:      SpeedChangeTrapWeight
-
-# This is where you organize your options
-# Its entirely up to you how you want to organize it
-deathbulge_option_groups: Dict[str, List[Any]] = {
-    "General Options": [StartingChapter, ExtraLocations],
-    "Trap Options": [TrapChance, ForcefemTrapWeight, SpeedChangeTrapWeight]
-}
+    start_with_fast_travel: StartWithFastTravel
+    team_start: TeamStart
+    starting_money: StartingMoney

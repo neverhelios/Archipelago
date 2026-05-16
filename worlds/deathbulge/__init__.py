@@ -1,109 +1,142 @@
-import logging
-
-from BaseClasses import MultiWorld, Item, Tutorial
+from BaseClasses import Tutorial, ItemClassification, Region
 from worlds.AutoWorld import World, CollectionState, WebWorld
-from typing import Dict
+from .items import (
+    DeathbulgeItem,
+    all_treasure_items,
+    base_id,
+    treasure_stocks_items,
+    treasure_legendary_beats_items,
+    treasure_patches_items,
+    treasure_merch_items,
+    treasure_mod_items,
+    treasure_old_prize_draw_ticket_items,
+    treasure_progression_items,
+    real_fillers_items,
+)
+from .locations import (
+    regions_to_locations,
+    dream_locations,
+    bopstead_locations,
+    tonewood_locations,
+    claire_hair_locations,
+    basement_locations,
+    the_bus_locations,
+    hoho_locations,
+    lab_locations,
+    pokalyps_locations,
+    claire_lower_locations,
+)
+from .regions import deathbulge_regions_all
+from .options import DeathbulgeOptions
 
-from .Locations import get_location_names, get_total_locations
-from .Items import create_item, create_itempool, item_table
-from .Options import DeathbulgeOptions
-from .Regions import create_regions
-from .Types import ChapterType, chapter_type_to_name
 
-# This is where you setup the page on the site!
-# Typically is the name of your game with web
-# Whatever you named the folder you are holding all of this in
 class DeathbulgeWeb(WebWorld):
-    # Theres a few different themes so have fun with it
-    theme = "Party"
+    theme = "jungle"
 
-    tutorials = [Tutorial(
-        "Multiworld Setup Guide",
-        "A guide to setting up Deathbulge for Archipelago. "
-        "This guide covers single-player, multiworld, and related software.",
-        "English",
-        "setup_en.md",
-        "setup/en",
-        ["NeverHeliOS"]
-    )]
+    bug_report_page = "https://github.com/neverhelios/DeathbulgeArchipelago/issues"
 
-# This class is the real meat and potatoes
-# Same as the first class its normally named whatever you named your folder with World at the end
+    tutorials = [
+        Tutorial(
+            "Multiworld Setup Guide",
+            "A guide to setting up Deathbulge for Archipelago. "
+            "This guide covers single-player, multiworld, and related software.",
+            "English",
+            "setup_en.md",
+            "setup/en",
+            ["NeverHeliOS"],
+        )
+    ]
+
+
 class DeathbulgeWorld(World):
     """
     The party-based RPG where you kick down doors and fight with music as a 3-piece band of idiots.
     You play as Faye, Ian and Briff, a 3-piece band of dysfunctional friends who unknowingly stumble into a cursed battle of the bands contest,
-    where all entrants can attack with music and must fight to the death. 
+    where all entrants can attack with music and must fight to the death.
     """
 
     game = "Deathbulge"
-    item_name_to_id = {name: data.ap_code for name, data in item_table.items()}
-    location_name_to_id = get_location_names()
-    # And these 2 are the name of your Options.py class. 
-    options_dataclass = DeathbulgeOptions
-    options = DeathbulgeOptions
-    web = DeathbulgeWeb()
+    options_dataclass = DeathbulgeOptions  # options the player can set
+    options: DeathbulgeOptions  # typing hints for option results
+    topology_present = True  # show path to required location checks in spoiler
 
+    # The following two dicts are required for the generation to know which items exist.
+    # They can be generated with arbitrary code during world load, but keep in mind that
+    # anything expensive (e.g. parsing non-python data files) will delay world loading.
+    # They can include events, but don't have to since events will be placed manually.
 
-    # This is where you put stuff that need to be done RIGHT away. Typically you can just leave it alone but it can be useful to pop some things here as needed
-    def __init__(self, multiworld: "MultiWorld", player: int):
-        super().__init__(multiworld, player)
+    all_items = all_treasure_items
+    item_name_to_id = {item["name"]: i + base_id for i, item in enumerate(all_items)}
 
-    # Generate early you do things just before the generation
-    # Super important for doing things like adjusting the item pool based on options and the like
-    # Can technically be skipped if you dont need to do anything or if you handle it elsewhere like a short hike
-    def generate_early(self):
-        # I highly recommend looking at other apworlds init files to see some examples
-        # sly1 (hey i did that), ahit, and bomb rush cyberfunk are some good ones
-        starting_chapter = chapter_type_to_name[ChapterType(self.options.StartingChapter)]
+    all_locations = (
+        dream_locations
+        + bopstead_locations
+        + tonewood_locations
+        + claire_hair_locations
+        + basement_locations
+        + the_bus_locations
+        + hoho_locations
+        + lab_locations
+        + pokalyps_locations
+        + claire_lower_locations
+    )
 
-        # Push precollected is how you give your player items they need to start with
-        # This is for options though. Dont worry about the starting inventory option thats in all yamls
-        # AP handles that one
-        self.multiworld.push_precollected(self.create_item(starting_chapter))
+    location_name_to_id = {name: id for id, name in enumerate(all_locations, base_id)}
 
-    # Regions are the different locations in your world. So like Undead Burgh in dark souls or Pacifilog Town in pokemon
-    # They dont have to match your game, they can be whatever you need them to be for organization
-    def create_regions(self):
-        # This function comes from your Regions.py and dont worry that it matches the function that its in
-        create_regions(self)
+    # Items can be grouped using their names to allow easy checking if any item
+    # from that group has been collected. Group names can also be used for !hint
+    item_name_groups = {
+        # TODO: Add shop stocks
+        "stocks": {item["name"] for item in treasure_stocks_items + []},
+        # TODO: Add last legendary beat
+        "legendary_beats": {item["name"] for item in treasure_legendary_beats_items + []},
+        # TODO: Add shop patches
+        "patches": {item["name"] for item in treasure_patches_items + []},
+        # TODO: Add shop merch
+        "merch": {item["name"] for item in treasure_merch_items + []},
+        # TODO: Add shop mods
+        "mods": {item["name"] for item in treasure_mod_items + []},
+        "old_prize_draw_tickets": {item["name"] for item in treasure_old_prize_draw_ticket_items},
+        "key_progression_merch": {item["name"] for item in treasure_progression_items},
+    }
 
-        # You can also use this space to do other location creation activities
-        # Like if an option is enabled to add extra locations
-        # Or the opposite, whatever it is. Just be careful that you arent duplicating locations
+    def get_filler_item_name(self) -> str:
+        return self.random.choice(real_fillers_items)["name"]
 
-    # These are some examples of creating items. The create_itempool(self) function is coming from Items.py in this instance
-    # The important part is that the items get into the self.multiworld.itempool as a list of Items
-    # Ill try to explain better in the Items.py file 
-    def create_items(self):
-        self.multiworld.itempool += create_itempool(self)
+    def create_item(self, name: str) -> DeathbulgeItem:
+        item_id = self.item_name_to_id[name]
+        item_data = self.all_items[item_id - base_id]
+        return DeathbulgeItem(name, item_data["classification"], item_id, self.player)
 
-    # This is just a helper function for turning names into Items. You could do some other stuff here as well
-    # ahit does similar if you want another look and bomb rush cyberfunk does it in a slightly different way by turning it into a specific item for that game
-    # Again hopefully I do a better job of explaining the Items.py file
-    def create_item(self, name: str) -> Item:
-        return create_item(self, name)
-    
-    # The slot data is what youre sending to the AP server kinda. You dont have to add all your options. Really you want the ones you think a pop tracker would use
-    # Seed, Slot, and TotalLocations are all super important for AP though, you need those
-    def fill_slot_data(self) -> Dict[str, object]:
-        slot_data: Dict[str, object] = {
-            "options": {
-                "StartingPlace":            self.options.StartingChapter.value,
-                "ExtraLocations":           self.options.ExtraLocations.value,
-                "TrapChance":               self.options.TrapChance.value,
-                "ForcefemTrapWeight":       self.options.ForcefemTrapWeight.value,
-                "SpeedChangeTrapWeight":    self.options.SpeedChangeTrapWeight.value
-            },
-            "Seed": self.multiworld.seed_name,  # to verify the server's multiworld
-            "Slot": self.multiworld.player_name[self.player],  # to connect to server
-            "TotalLocations": get_total_locations(self) # get_total_locations(self) comes from Locations.py
-        }
+    def create_items(self) -> None:
+        nb_items_added = 0
+        useful_items = self.all_items.copy()
 
-        return slot_data
-    
-    def collect(self, state: "CollectionState", item: "Item") -> bool:
-        return super().collect(state, item)
-    
-    def remove(self, state: "CollectionState", item: "Item") -> bool:
-        return super().remove(state, item)
+        useful_items = [item for item in useful_items if item["classification"] != ItemClassification.filler]
+
+        for item in useful_items:
+            for _ in range(item["count"]):
+                new_item = self.create_item(item["name"])
+                self.multiworld.itempool.append(new_item)
+                nb_items_added += 1
+
+        filler_count = len(self.all_locations)
+        filler_count -= nb_items_added
+
+        for i in range(filler_count):
+            index = i % len(real_fillers_items)
+            filler_item = real_fillers_items[index]
+            new_item = self.create_item(filler_item["name"])
+            self.multiworld.itempool.append(new_item)
+
+    def create_regions(self) -> None:
+        used_regions = deathbulge_regions_all
+        for region_name in used_regions.keys():
+            self.multiworld.regions.append(Region(region_name, self.player, self.multiworld))
+
+        for region_name, region_connections in used_regions.items():
+            region = self.get_region(region_name)
+            region.add_exits(region_connections)
+            region.add_locations(
+                {location: self.location_name_to_id[location] for location in regions_to_locations[region_name]}
+            )
