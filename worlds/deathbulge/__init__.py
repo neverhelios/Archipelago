@@ -15,8 +15,9 @@ from .items import (
     real_fillers_items,
 )
 from .locations import regions_to_locations, all_locations
-from .regions import DeathbugeRegion, all_regions
 from .options import DeathbulgeOptions
+from .regions import DeathbugeRegion, all_regions
+from .rules import DeathbulgeRules
 
 
 class DeathbulgeWeb(WebWorld):
@@ -48,6 +49,8 @@ class DeathbulgeWorld(World):
     options_dataclass = DeathbulgeOptions  # options the player can set
     options: DeathbulgeOptions  # typing hints for option results
     topology_present = True  # show path to required location checks in spoiler
+
+    # TODO: Create early items and priority locations
 
     # The following two dicts are required for the generation to know which items exist.
     # They can be generated with arbitrary code during world load, but keep in mind that
@@ -122,3 +125,6 @@ class DeathbulgeWorld(World):
 
         menu_region = DeathbugeRegion("Menu", self)
         menu_region.add_exits({"Dream - Intro01": "Start game"})
+
+    def set_rules(self) -> None:
+        DeathbulgeRules(self).set_deathbulge_rules()
