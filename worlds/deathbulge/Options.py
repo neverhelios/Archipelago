@@ -5,7 +5,7 @@ from Options import Toggle, Range, Choice, PerGameCommonOptions
 class StartWithFastTravel(Toggle):
     """Activates the fast travel earlier than in the base game. (Not Implemented)"""
 
-    display_name = "Start with fasttTravel"  # this is the option name as it's displayed to the user on the webhost and in the spoiler log
+    display_name = "Start with fast Travel"  # this is the option name as it's displayed to the user on the webhost and in the spoiler log
 
 
 class TeamStart(Choice):
@@ -23,7 +23,7 @@ class TeamStart(Choice):
 class StartingMoney(Range):
     """Set the starting money of your party. (Not Implemented)"""
 
-    display_name = "Final Boss HP"
+    display_name = "Stating money"
     range_start = 0
     range_end = 10000
     default = 0

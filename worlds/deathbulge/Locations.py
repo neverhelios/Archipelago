@@ -6,168 +6,326 @@ class DeathbulgeLocation(Location):
     game: str = "Deathbulge"
 
 
-dream_locations = [
-    "Dream03Treasure01",
-    "Dream03Treasure02",
-    "Dream03Treasure03",
-    "Dream05Treasure01",
-    "Dream04Treasure02",
-    "Dream04Treasure01",
-    "Dream04Treasure03",
-]
+regions_to_locations: Dict[str, Dict[str, List[str]]] = {
+    "Menu": {
+        "Menu": [],
+    },
+    # Dream
+    "Dream": {
+        "Intro01": [],
+        "Dream02": [],
+        "Dream03": [
+            "Dream03Treasure01",
+            "Dream03Treasure02",
+            "Dream03Treasure03",
+        ],
+        "Dream04": [
+            "Dream04Treasure02",
+            "Dream04Treasure01",
+            "Dream04Treasure03",
+        ],
+        "Dream05": [
+            "Dream05Treasure01",
+        ],
+        "Dream06": [],
+        "DreamUbers": [],
+    },
+    # Bopstead
+    "Bopstead": {
+        "Bopstead01": [
+            "[Treasure] PrizeTicketBarry",  # TODO: Find real region
+            "[Treasure] PrizeTicketBrioche",  # TODO: Find real region
+            "[Treasure] PrizeTicketMadam",  # TODO: Find real region
+            "[Treasure] MODPODClass",
+            "[Treasure] PartyHouseReward",
+            "[Treasure] GeorgeousReward",
+            "[Treasure] NelReward",
+            "Bopstead01Treasure01",
+            "Bopstead01Treasure02",
+            "Bopstead01Treasure03",
+            "[Treasure] PrizeTicketPlat",  # TODO: Check if real region
+            "[Treasure] FoggyRewardPatch",  # TODO: Check if real region
+            "[Treasure] FoggyRewardMoney",  # TODO: Check if real region
+            "[Treasure] Foggy300",  # TODO: Check if real region
+        ],
+        "Bopstead02": [
+            "[Treasure] DaemoPatch",
+            "Bopstead02Treasure01",
+            "Bopstead02Treasure02",
+            "Bopstead02Treasure03",
+            "Bopstead02Treasure04",
+        ],
+        "Bopstead03": [
+            "Bopstead03Treasure01",
+        ],
+        "Bopstead04": [
+            "Bopstead04Treasure01",
+        ],
+        "Bopstead05": [],
+    },
+    # Tonewood
+    "Tonewood": {
+        "Tonewood01": [
+            "Tonewood01Treasure01",
+        ],
+        "Tonewood02": [
+            "Tonewood02Treasure01",
+        ],
+        "Tonewood03": [
+            "Tonewood03Treasure01",
+            "Tonewood03Treasure02",
+        ],
+        "Tonewood04": [
+            "Tonewood04Treasure01",
+            "Tonewood04Treasure02",
+        ],
+        "Tonewood05": [],
+        "Tonewood06": [
+            "Tonewood06Treasure01",
+            "Tonewood06Treasure02",
+        ],
+        "Tonewood07": [],
+        "Tonewood07-01": [],
+        "Tonewood07-02": [],
+        "Tonewood07-03": [],
+        "Tonewood07-04": [],
+        "Tonewood07-05": [],
+        "Tonewood08": [
+            "Tonewood08Treasure01",
+            "Tonewood08Treasure02",
+            "Tonewood08Treasure03",
+            "Tonewood08Treasure04",
+            "[Treasure] TonewoodGig02-Shrubbanshee",  # TODO: Check if real region
+            "[Treasure] GillianFork",  # TODO: Check if real region
+            "[Treasure] PrizeTicketJim",  # TODO: Check if real region
+        ],
+    },
+    # ClaireHair
+    "ClaireHair": {
+        "ClaireHair01": [],
+        "ClaireHair02": [
+            "Claire02Treasure01",
+        ],
+        "ClaireHair03": [],
+        "ClaireHair04Lower": [
+            "Claire04Treasure01",
+            "Claire04Treasure02",
+            "Claire04Treasure03",
+            "Claire04Treasure04",
+            "Claire04Treasure05",
+        ],
+        "ClaireHair04Upper": [],
+        "ClaireHair05": [
+            "Claire05Treasure01",
+        ],
+        "ClaireHair06": [
+            "Claire06Treasure01",
+        ],
+        "ClaireHair07": [
+            "Claire07Treasure01",
+            "[Treasure] ClaireGig03-Madam",  # TODO: Check if real region
+            "Claire07Treasure02",
+        ],
+        "ClaireHair08": [],
+    },
+    # Basement
+    "Basement": {
+        "Basement01": [
+            "[Treasure] BasementGig01-Cuttlebro",  # TODO: Find real region
+            "Whale25Treasure",  # TODO: Find real region
+        ],
+        "Basement02": [
+            "Basement02Treasure01",
+            "Basement02Treasure02",
+        ],
+        "Basement03": [
+            "Basement03Treasure01",
+            "Basement03Treasure02",
+            "Basement03Treasure03",
+        ],
+        "Basement04": [
+            "[Treasure] BasementGig02-Whale",
+            "Basement04Treasure01",
+        ],
+        "Basement05": [
+            "Basement05Treasure01",
+        ],
+        "Basement06": [
+            "[Treasure] BasementGig04-Shutup",
+            "Basement06Treasure01",
+            "Basement06Treasure02",
+            "Basement06Treasure03",
+        ],
+        "Basement07": [
+            "[Treasure] BasementGig05-Cuttle",  # TODO: Find real region
+            "[Treasure] PrizeTicketBase",  # TODO: Find real region
+        ],
+        "BasementEndingStudio": [],
+    },
+    # TheBus
+    "TheBus": {
+        "TheBus01": [
+            "[Treasure] PrizeTicketBus",  # TODO: Find real region
+        ],
+        "TheBus02": [
+            "TheBus02Treasure01",
+        ],
+        "TheBus03": [],
+        "TheBus04": [],
+        "TheBus05": [
+            "TheBus05Treasure01",
+            "TheBus05Treasure02",
+            "TheBus05Treasure03",
+        ],
+        "TheBus06": [
+            "[Treasure] 13DeckKeycard",  # TODO: Check if real region
+            "[Treasure] 14DeckKeycard",  # TODO: Check if real region
+            "[Treasure] TheBusGig02-Weaver",  # TODO: Check if real region
+            "[Treasure] TheBusGig01-Glamourella",
+        ],
+        "TheBus07": [],
+        "TheBus08": [
+            "TheBus08Treasure02",
+            "TheBus08Treasure01",
+            "TheBus08Treasure03",
+        ],
+        "TheBus09": [
+            "TheBus09Treasure01",
+        ],
+        "TheBus10": [
+            "TheBus10Treasure01",
+            "TheBus10Treasure02",
+            "TheBus10Treasure03",
+        ],
+        "TheBus11": [
+            "TheBus11Treasure01",
+        ],
+        "TheBusElevator": [],
+    },
+    # Hoho
+    "Hoho": {
+        "Hoho01Lower": [
+            "Hoho01Treasure01",  # TODO: Verify if effectively lower
+            "Hoho01Treasure02",  # TODO: Verify if effectively lower
+        ],
+        "Hoho01Observatory": [],
+        "Hoho01-Bus": [],
+        "Hoho02": [
+            "Hoho02Treasure01",
+            "Hoho02Treasure02",
+            "Hoho02Treasure03",
+            "Hoho02Treasure04",
+            "Hoho02Treasure05",
+            "Hoho02Treasure06",
+            "[Treasure] PrizeTicketHoho",  # TODO: Check if real region
+        ],
+    },
+    # Lab
+    "Lab": {
+        "Lab01": [
+            "Lab01Treasure01",
+        ],
+        "Lab02": [],
+        "Lab03": [
+            "Lab03Treasure01",
+        ],
+        "Lab04": [
+            "Lab04Treasure01",
+            "Lab04Treasure02",
+        ],
+        "Lab05": [],
+        "Lab06": [],
+        "Lab07": [
+            "Lab07Treasure01",
+            "Lab07Treasure02",
+        ],
+        "Lab08": [
+            "Lab08Treasure01",
+        ],
+        "Lab09": [
+            "Lab09Treasure01",
+        ],
+        "Lab10": [
+            "Lab10Treasure01",
+            "Lab10Treasure02",
+        ],
+        "Lab11": [
+            "[Treasure] LabGig02-WIP",  # TODO: Check if real region
+            "[Treasure] PrizeTicketLab",  # TODO: Find real region
+        ],
+        "Lab12": [
+            "Lab12Treasure01",
+        ],
+    },
+    # Pokalyps
+    "Pokalyps": {
+        "Pokalyps01": [
+            "Pokalyps01Treasure01",
+            "Pokalyps01Treasure02",
+        ],
+        "Pokalyps02Lower": [
+            "Pokalyps02Treasure01",
+        ],
+        "Pokalyps02Upper": [
+            "Pokalyps02Treasure02",
+        ],
+        "Pokalyps03": [],
+        "Pokalyps04Middle": [],
+        "Pokalyps04Lower": [],
+        "Pokalyps04Upper": [],
+        "Pokalyps04EvenUpper": [
+            "Pokalyps04Treasure01",
+        ],
+        "Pokalyps05": [
+            "Pokalyps05Treasure01",
+            "Pokalyps05Treasure02",
+        ],
+        "Pokalyps06": [
+            "Pokalyps06Treasure01",
+        ],
+        "Pokalyps07": [
+            "Pokalyps07Treasure01",
+        ],
+        "Pokalyps08": [],
+        "Pokalyps09": [
+            "Pokalyps09Treasure01",
+        ],
+        "Pokalyps10": [
+            "Pokalyps10Treasure01",
+        ],
+        "Pokalyps11": [
+            "[Treasure] PrizeTicketPok",  # TODO: Find real region
+        ],
+    },
+    # ClaireLower
+    "ClaireLower": {
+        "ClaireLower01": [
+            "ClaireLower01Treasure01",
+        ],
+        "ClaireLower02": [
+            "ClaireLower02Treasure01",
+        ],
+        "ClaireLower03": [
+            "ClaireLower03Treasure01",
+            "ClaireLower03Treasure02",
+            "ClaireLower03Treasure03",
+        ],
+        "ClaireLower04": [
+            "ClaireLower04Treasure01",
+            "ClaireLower04Treasure02",
+        ],
+        "TobbyCabin": [],
+    },
+    # BattleOfTheBands
+    "BattleOfTheBands": {
+        "BOTBLobby": [],
+    },
+}
 
-bopstead_locations = [
-    "[Treasure] PrizeTicketMadam",
-    "[Treasure] MODPODClass",
-    "[Treasure] PartyHouseReward",
-    "[Treasure] GeorgeousReward",
-    "[Treasure] NelReward",
-    "Bopstead01Treasure01",
-    "[Treasure] FoggyRewardPatch",
-    "[Treasure] DaemoPatch",
-    "Bopstead03Treasure01",
-    "Bopstead04Treasure01",
-    "[Treasure] PrizeTicketBarry",
-    "[Treasure] PrizeTicketBrioche",
-    "[Treasure] PrizeTicketPlat",
-]
 
-tonewood_locations = [
-    "Tonewood01Treasure01",
-    "Tonewood02Treasure01",
-    "Tonewood03Treasure01",
-    "Tonewood03Treasure02",
-    "Tonewood04Treasure01",
-    "Tonewood06Treasure01",
-    "Tonewood08Treasure01",
-    "[Treasure] TonewoodGig02-Shrubbanshee",
-    "Tonewood04Treasure02",
-    "Tonewood06Treasure02",
-    "Tonewood08Treasure02",
-    "Tonewood08Treasure03",
-    "[Treasure] GillianFork",
-    "[Treasure] PrizeTicketJim",
-]
-
-claire_hair_locations = [
-    "Claire02Treasure01",
-    "Claire06Treasure01",
-    "Claire04Treasure01",
-    "Claire04Treasure02",
-    "Claire07Treasure01",
-    "[Treasure] ClaireGig03-Madam",
-    "Claire07Treasure02",
-    "Claire05Treasure01",
-]
-
-basement_locations = [
-    "[Treasure] BasementGig02-Whale",
-    "[Treasure] BasementGig04-Shutup",
-    "Basement03Treasure01",
-    "Basement06Treasure01",
-    "[Treasure] BasementGig05-Cuttle",
-    "[Treasure] BasementGig01-Cuttlebro",
-    "Basement06Treasure02",
-    "Basement06Treasure03",
-    "Basement04Treasure01",
-    "Basement03Treasure02",
-    "Basement03Treasure03",
-    "Basement05Treasure01",
-    "Basement02Treasure01",
-    "Whale25Treasure",
-    "Basement02Treasure02",
-    "[Treasure] PrizeTicketBase",
-]
-
-the_bus_locations = [
-    "TheBus02Treasure01",
-    "TheBus05Treasure01",
-    "TheBus05Treasure02",
-    "TheBus08Treasure02",
-    "TheBus08Treasure01",
-    "TheBus09Treasure01",
-    "TheBus10Treasure01",
-    "TheBus10Treasure02",
-    "TheBus11Treasure01",
-    "[Treasure] TheBusGig02-Weaver",
-    "[Treasure] TheBusGig01-Glamourella",
-    "TheBus10Treasure03",
-    "TheBus08Treasure03",
-    "TheBus05Treasure03",
-    "[Treasure] PrizeTicketBus",
-    "[Treasure] 13DeckKeycard",
-    "[Treasure] 14DeckKeycard",
-]
-
-hoho_locations = [
-    "Hoho02Treasure01",
-    "Hoho02Treasure02",
-    "Hoho02Treasure03",
-    "Hoho02Treasure04",
-    "Hoho01Treasure01",
-    "Hoho02Treasure05",
-    "Hoho01Treasure02",
-    "[Treasure] PrizeTicketHoho",
-    "Hoho02Treasure06",
-]
-
-lab_locations = [
-    "Lab03Treasure01",
-    "Lab04Treasure01",
-    "Lab07Treasure01",
-    "Lab08Treasure01",
-    "[Treasure] LabGig02-WIP",
-    "Lab01Treasure01",
-    "Lab04Treasure02",
-    "Lab07Treasure02",
-    "Lab09Treasure01",
-    "Lab10Treasure01",
-    "Lab12Treasure01",
-    "[Treasure] PrizeTicketLab",
-    "Lab10Treasure02",
-]
-
-pokalyps_locations = [
-    "Pokalyps01Treasure01",
-    "Pokalyps02Treasure01",
-    "Pokalyps02Treasure02",
-    "Pokalyps04Treasure01",
-    "Pokalyps05Treasure01",
-    "Pokalyps06Treasure01",
-    "Pokalyps07Treasure01",
-    "Pokalyps09Treasure01",
-    "Pokalyps05Treasure02",
-    "Pokalyps10Treasure01",
-    "Pokalyps01Treasure02",
-    "[Treasure] PrizeTicketPok",
-]
-
-claire_lower_locations = [
-    "ClaireLower01Treasure01",
-    "ClaireLower02Treasure01",
-    "ClaireLower03Treasure02",
-    "ClaireLower04Treasure01",
-    "ClaireLower03Treasure01",
-    "ClaireLower03Treasure03",
-    "ClaireLower04Treasure02",
-]
-
-
-# TODO: Look in the code where they are
-misc_locations = []
-
-
-regions_to_locations: Dict[str, List[str]] = {
-    "Menu": [],
-    "Dream": dream_locations,
-    "Bopstead": bopstead_locations,
-    "Tonewood": tonewood_locations,
-    "Claire Hair": claire_hair_locations,
-    "Basement": basement_locations,
-    "The Bus": the_bus_locations,
-    "Hoho": hoho_locations,
-    "Lab": lab_locations,
-    "Pokalyps": pokalyps_locations,
-    "Claire lower": claire_lower_locations,
-    "Battle of the bands": [],
+all_locations = {
+    location
+    for region, subregions in regions_to_locations.items()
+    for subregion, locations in subregions.items()
+    for location in locations
 }
