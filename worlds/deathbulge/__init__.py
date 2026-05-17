@@ -1,5 +1,6 @@
 from BaseClasses import Tutorial, ItemClassification, Region
 from worlds.AutoWorld import World, CollectionState, WebWorld
+from .connections import all_connections
 from .items import (
     DeathbulgeItem,
     all_treasure_items,
@@ -13,20 +14,8 @@ from .items import (
     treasure_progression_items,
     real_fillers_items,
 )
-from .locations import (
-    regions_to_locations,
-    dream_locations,
-    bopstead_locations,
-    tonewood_locations,
-    claire_hair_locations,
-    basement_locations,
-    the_bus_locations,
-    hoho_locations,
-    lab_locations,
-    pokalyps_locations,
-    claire_lower_locations,
-)
-from .regions import deathbulge_regions_all
+from .locations import regions_to_locations, all_locations
+from .regions import DeathbugeRegion, all_regions
 from .options import DeathbulgeOptions
 
 
@@ -68,19 +57,6 @@ class DeathbulgeWorld(World):
     all_items = all_treasure_items
     item_name_to_id = {item["name"]: i + base_id for i, item in enumerate(all_items)}
 
-    all_locations = (
-        dream_locations
-        + bopstead_locations
-        + tonewood_locations
-        + claire_hair_locations
-        + basement_locations
-        + the_bus_locations
-        + hoho_locations
-        + lab_locations
-        + pokalyps_locations
-        + claire_lower_locations
-    )
-
     location_name_to_id = {name: id for id, name in enumerate(all_locations, base_id)}
 
     # Items can be grouped using their names to allow easy checking if any item
@@ -100,6 +76,7 @@ class DeathbulgeWorld(World):
         "key_progression_merch": {item["name"] for item in treasure_progression_items},
     }
 
+    # TODO: Open the game more, or add rules based on boss locations ? Add the bus stops too
     def get_filler_item_name(self) -> str:
         return self.random.choice(real_fillers_items)["name"]
 
@@ -120,7 +97,7 @@ class DeathbulgeWorld(World):
                 self.multiworld.itempool.append(new_item)
                 nb_items_added += 1
 
-        filler_count = len(self.all_locations)
+        filler_count = len(all_locations)
         filler_count -= nb_items_added
 
         for i in range(filler_count):
@@ -130,13 +107,18 @@ class DeathbulgeWorld(World):
             self.multiworld.itempool.append(new_item)
 
     def create_regions(self) -> None:
-        used_regions = deathbulge_regions_all
-        for region_name in used_regions.keys():
-            self.multiworld.regions.append(Region(region_name, self.player, self.multiworld))
 
-        for region_name, region_connections in used_regions.items():
-            region = self.get_region(region_name)
-            region.add_exits(region_connections)
-            region.add_locations(
-                {location: self.location_name_to_id[location] for location in regions_to_locations[region_name]}
-            )
+        list_regions = [
+            DeathbugeRegion(f"{parent} - {subregion}", self, parent)
+            for parent, sub_regions in all_regions.items()
+            for subregion in sub_regions
+        ]
+
+        for region in list_regions:
+            region_name = region.name.removeprefix(f"{region.parent} - ")
+            connection_data = all_connections[region.parent][region_name]
+            for exit_region in connection_data:
+                region.connect(self.get_region(exit_region))
+
+        menu_region = DeathbugeRegion("Menu", self)
+        menu_region.add_exits({"Dream - Intro01": "Start game"})
