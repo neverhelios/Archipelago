@@ -1,33 +1,6 @@
-from typing import Dict, List, TYPE_CHECKING
+from typing import Dict, List
 
-from .locations import regions_to_locations
-
-if TYPE_CHECKING:
-    from . import DeathbulgeWorld
-
-from BaseClasses import Region
-
-
-class DeathbugeRegion(Region):
-    parent: str | None
-
-    def __init__(self, name: str, world: "DeathbulgeWorld", parent: str | None = None) -> None:
-        super().__init__(name, world.player, world.multiworld)
-        self.parent = parent
-        locations = []
-        if parent in regions_to_locations:
-            subregions_to_locations = regions_to_locations[parent]
-            region_name = name.removeprefix(f"{parent} - ")
-            if region_name in subregions_to_locations:
-                locations = [location for location in subregions_to_locations[region_name]]
-        loc_dict = {location: world.location_name_to_id.get(location, None) for location in locations}
-        self.add_locations(loc_dict)
-
-        print(f"Add region {name} ( {len(locations)} Locations)")
-        self.multiworld.regions.append(self)
-
-
-all_regions: dict[str, list[str]] = {
+all_regions: Dict[str, List[str]] = {
     "Dream": [
         "Intro01",
         "Dream02",

@@ -1,18 +1,10 @@
-from BaseClasses import Item, ItemClassification
-from typing import TypedDict, List
+from BaseClasses import ItemClassification
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .subclasses import ItemDict
 
 base_id = 50173000
-
-
-class DeathbulgeItem(Item):
-    name: str = "Deathbulge"
-
-
-class ItemDict(TypedDict):
-    name: str
-    count: int
-    classification: ItemClassification
-
 
 useful_skip_balancing: ItemClassification = ItemClassification(
     ItemClassification.useful + ItemClassification.skip_balancing
@@ -185,3 +177,16 @@ all_treasure_items: List[ItemDict] = (
     + treasure_progression_items
     + treasure_misc_items
 )
+
+boss_lock_items: List[ItemDict] = [
+    {"name": "Basement Key", "count": 1, "classification": ItemClassification.progression}, # Beat KKwak
+    {"name": "Babby's corpse", "count": 1, "classification": ItemClassification.progression}, # Beat Babby
+    {"name": "Bus ticket", "count": 1, "classification": ItemClassification.progression}, # Beat Platinium Scrumptious
+    {"name": "Pokalyps concert's invite", "count": 1, "classification": ItemClassification.progression}, # Beat Mutilla
+    {"name": "Claire's comb", "count": 1, "classification": ItemClassification.progression}, # Beat Pokalyps
+]
+
+
+all_items: List[ItemDict] = all_treasure_items 
+# Currently out of the global pool, but I will allow the items to be in the pool
+# + boss_lock_items

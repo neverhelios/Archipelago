@@ -2,8 +2,7 @@ from BaseClasses import Tutorial, ItemClassification, Region
 from worlds.AutoWorld import World, CollectionState, WebWorld
 from .connections import all_connections
 from .items import (
-    DeathbulgeItem,
-    all_treasure_items,
+    all_items,
     base_id,
     treasure_stocks_items,
     treasure_legendary_beats_items,
@@ -12,13 +11,15 @@ from .items import (
     treasure_mod_items,
     treasure_old_prize_draw_ticket_items,
     treasure_progression_items,
+    boss_lock_items,
     real_fillers_items,
 )
-from .locations import regions_to_locations, all_locations
+from .locations import all_locations, forced_locations
 from .options import DeathbulgeOptions
-from .regions import DeathbugeRegion, all_regions
+from .regions import all_regions
 from .rules import DeathbulgeRules
 
+from .subclasses import DeathbulgeRegion, DeathbulgeItem
 
 class DeathbulgeWeb(WebWorld):
     theme = "jungle"
@@ -57,7 +58,6 @@ class DeathbulgeWorld(World):
     # anything expensive (e.g. parsing non-python data files) will delay world loading.
     # They can include events, but don't have to since events will be placed manually.
 
-    all_items = all_treasure_items
     item_name_to_id = {item["name"]: i + base_id for i, item in enumerate(all_items)}
 
     location_name_to_id = {name: id for id, name in enumerate(all_locations, base_id)}
@@ -77,6 +77,7 @@ class DeathbulgeWorld(World):
         "mods": {item["name"] for item in treasure_mod_items + []},
         "old_prize_draw_tickets": {item["name"] for item in treasure_old_prize_draw_ticket_items},
         "key_progression_merch": {item["name"] for item in treasure_progression_items},
+        "boss_lock": {item["name"] for item in boss_lock_items},
     }
 
     # TODO: Open the game more, or add rules based on boss locations ? Add the bus stops too
@@ -85,12 +86,12 @@ class DeathbulgeWorld(World):
 
     def create_item(self, name: str) -> DeathbulgeItem:
         item_id = self.item_name_to_id[name]
-        item_data = self.all_items[item_id - base_id]
+        item_data = all_items[item_id - base_id]
         return DeathbulgeItem(name, item_data["classification"], item_id, self.player)
 
     def create_items(self) -> None:
         nb_items_added = 0
-        useful_items = self.all_items.copy()
+        useful_items = all_items.copy()
 
         useful_items = [item for item in useful_items if item["classification"] != ItemClassification.filler]
 
@@ -101,6 +102,7 @@ class DeathbulgeWorld(World):
                 nb_items_added += 1
 
         filler_count = len(all_locations)
+        filler_count -= len(forced_locations)
         filler_count -= nb_items_added
 
         for i in range(filler_count):
@@ -112,7 +114,7 @@ class DeathbulgeWorld(World):
     def create_regions(self) -> None:
 
         list_regions = [
-            DeathbugeRegion(f"{parent} - {subregion}", self, parent)
+            DeathbulgeRegion(f"{parent} - {subregion}", self, parent)
             for parent, sub_regions in all_regions.items()
             for subregion in sub_regions
         ]
@@ -123,7 +125,7 @@ class DeathbulgeWorld(World):
             for exit_region in connection_data:
                 region.connect(self.get_region(exit_region))
 
-        menu_region = DeathbugeRegion("Menu", self)
+        menu_region = DeathbulgeRegion("Menu", self)
         menu_region.add_exits({"Dream - Intro01": "Start game"})
 
     def set_rules(self) -> None:
