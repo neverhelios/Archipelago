@@ -25,11 +25,11 @@ class DeathbulgeRules:
             "TheBus - TheBusElevator -> TheBus - TheBus08": self.has_14_deck_keycard,
             "TheBus - TheBusElevator -> TheBus - TheBus10": self.has_16_deck_keycard,
             "Hoho - Hoho01Lower -> BattleOfTheBands - BOTBLobby": self.has_all_legendary_beats,
-            # Connections with indirect conditions
+            # Connections with indirect conditions ? (At least not when hard boss lock)
             "Bopstead - Bopstead02 -> Basement - Basement01": self.has_beaten_kkwak_claire,
             "Bopstead - Bopstead02 -> TheBus - TheBus01": self.has_beaten_modern_babby,
-            "TheBus - TheBus10 -> Hoho - Hoho01-Bus": self.has_beaten_platinum_scrumptious,  # Might be trivially true ?
-            "Lab - Lab10 -> Hoho - Hoho02": self.has_beaten_mutilla,  # Might be trivially true ?
+            "TheBus - TheBus10 -> Hoho - Hoho01-Bus": self.has_beaten_platinum_scrumptious,
+            "Lab - Lab10 -> Hoho - Hoho02": self.has_beaten_mutilla,
             "Hoho - Hoho02 -> Lab - Lab10": self.has_beaten_mutilla,
             "Hoho - Hoho02 -> Pokalyps - Pokalyps01": self.has_beaten_mutilla,
             "ClaireHair - ClaireHair04Lower -> ClaireLower - ClaireLower01": self.has_beaten_pokalyps,
@@ -41,27 +41,27 @@ class DeathbulgeRules:
 
         # dict of connection names and the regions checked in the requirements to traverse the exit
         self.indirect_conditions = {
-            "Bopstead - Bopstead02 -> Basement - Basement01": [
-                self.world.get_region("ClaireHair - ClaireHair08"),
-            ],
-            "Bopstead - Bopstead02 -> TheBus - TheBus01": [
-                self.world.get_region("Basement - Basement07"),
-            ],
-            "TheBus - TheBus10 -> Hoho - Hoho01-Bus": [
-                self.world.get_region("TheBus - TheBus10"),
-            ],
-            "Lab - Lab10 -> Hoho - Hoho02": [
-                self.world.get_region("Lab - Lab10"),
-            ],
-            "Hoho - Hoho02 -> Lab - Lab10": [
-                self.world.get_region("Lab - Lab10"),
-            ],
-            "Hoho - Hoho02 -> Pokalyps - Pokalyps01": [
-                self.world.get_region("Lab - Lab10"),
-            ],
-            "ClaireHair04Lower -> ClaireLower - ClaireLower01": [
-                self.world.get_region("Pokalyps - Pokalyps11"),
-            ],
+            # "Bopstead - Bopstead02 -> Basement - Basement01": [
+            #     self.world.get_region("ClaireHair - ClaireHair08"),
+            # ],
+            # "Bopstead - Bopstead02 -> TheBus - TheBus01": [
+            #     self.world.get_region("Basement - Basement07"),
+            # ],
+            # "TheBus - TheBus10 -> Hoho - Hoho01-Bus": [
+            #     self.world.get_region("TheBus - TheBus10"),
+            # ],
+            # "Lab - Lab10 -> Hoho - Hoho02": [
+            #     self.world.get_region("Lab - Lab10"),
+            # ],
+            # "Hoho - Hoho02 -> Lab - Lab10": [
+            #     self.world.get_region("Lab - Lab10"),
+            # ],
+            # "Hoho - Hoho02 -> Pokalyps - Pokalyps01": [
+            #     self.world.get_region("Lab - Lab10"),
+            # ],
+            # "ClaireHair04Lower -> ClaireLower - ClaireLower01": [
+            #     self.world.get_region("Pokalyps - Pokalyps11"),
+            # ],
         }
 
     # Items rules
@@ -81,21 +81,20 @@ class DeathbulgeRules:
         return True
 
     # Bosses rules
-    # TODO: Create location checks for the bosses to really enforce the fact that they?
     def has_beaten_kkwak_claire(self, state: CollectionState) -> bool:
-        return state.can_reach_region("ClaireHair - ClaireHair08", self.player)
+        return state.has("Basement Key", self.player)
 
     def has_beaten_modern_babby(self, state: CollectionState) -> bool:
-        return state.can_reach_region("Basement - Basement07", self.player)
+        return state.has("Babby's corpse", self.player)
 
     def has_beaten_platinum_scrumptious(self, state: CollectionState) -> bool:
-        return state.can_reach_region("TheBus - TheBus10", self.player)
+        return state.has("Bus ticket", self.player)
 
     def has_beaten_mutilla(self, state: CollectionState) -> bool:
-        return state.can_reach_region("Lab - Lab10", self.player)
+        return state.has("Pokalyps concert's invite", self.player)
 
     def has_beaten_pokalyps(self, state: CollectionState) -> bool:
-        return state.can_reach_region("Pokalyps - Pokalyps11", self.player)
+        return state.has("Claire's comb", self.player)
 
     # Set all rules in the multiworld
     def set_deathbulge_rules(self) -> None:
@@ -111,3 +110,5 @@ class DeathbulgeRules:
         for loc in multiworld.get_locations(self.player):
             if loc.name in self.location_rules:
                 loc.access_rule = self.location_rules[loc.name]
+        
+        multiworld.completion_condition[self.player] = lambda state: state.has("Beat Boosted KKwak", self.player)

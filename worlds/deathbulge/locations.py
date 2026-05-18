@@ -1,10 +1,4 @@
-from typing import Dict, List
-from BaseClasses import Location
-
-
-class DeathbulgeLocation(Location):
-    game: str = "Deathbulge"
-
+from typing import Dict, List, TYPE_CHECKING
 
 regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     "Menu": {
@@ -126,7 +120,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "[Treasure] ClaireGig03-Madam",  # TODO: Check if real region
             "Claire07Treasure02",
         ],
-        "ClaireHair08": [],
+        "ClaireHair08": ["Beat KKwak"],
     },
     # Basement
     "Basement": {
@@ -137,6 +131,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Basement02": [
             "Basement02Treasure01",
             "Basement02Treasure02",
+            "[Treasure] BasementGig05-Cuttle",  # TODO: Find real region
         ],
         "Basement03": [
             "Basement03Treasure01",
@@ -155,11 +150,9 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Basement06Treasure01",
             "Basement06Treasure02",
             "Basement06Treasure03",
-        ],
-        "Basement07": [
-            "[Treasure] BasementGig05-Cuttle",  # TODO: Find real region
             "[Treasure] PrizeTicketBase",  # TODO: Find real region
         ],
+        "Basement07": ["Beat Modern Babby"],
         "BasementEndingStudio": [],
     },
     # TheBus
@@ -196,6 +189,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "TheBus10Treasure01",
             "TheBus10Treasure02",
             "TheBus10Treasure03",
+            "Beat Platinum Scrumptious",
         ],
         "TheBus11": [
             "TheBus11Treasure01",
@@ -248,6 +242,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Lab10": [
             "Lab10Treasure01",
             "Lab10Treasure02",
+            "Beat Mutilla",
         ],
         "Lab11": [
             "[Treasure] LabGig02-WIP",  # TODO: Check if real region
@@ -295,6 +290,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         ],
         "Pokalyps11": [
             "[Treasure] PrizeTicketPok",  # TODO: Find real region
+            "Beat Pokalyps",
         ],
     },
     # ClaireLower
@@ -318,14 +314,26 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     },
     # BattleOfTheBands
     "BattleOfTheBands": {
-        "BOTBLobby": [],
+        "BOTBLobby": ["Beat Boosted KKwak"],
     },
 }
 
 
-all_locations = {
+all_locations = [
     location
     for region, subregions in regions_to_locations.items()
     for subregion, locations in subregions.items()
     for location in locations
+]
+
+# Currently the list is static, but I will allow the items to be in the pool
+forced_locations_items: List[Dict] = {
+    "Beat KKwak" : "Basement Key",
+    "Beat Modern Babby" : "Babby's corpse",
+    "Beat Platinum Scrumptious" : "Bus ticket",
+    "Beat Mutilla" : "Pokalyps concert's invite",
+    "Beat Pokalyps" : "Claire's comb",
+    "Beat Boosted KKwak" : "Beat Boosted KKwak",
 }
+
+forced_locations = [location for location, item in forced_locations_items]
