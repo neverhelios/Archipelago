@@ -15,7 +15,7 @@ useful_progression: ItemClassification = ItemClassification(ItemClassification.p
 
 
 # TODO: Progressive / Countable ?
-treasure_stocks_items: List[ItemDict] = [
+treasure_stocks_items: List["ItemDict"] = [
     {"name": "[Stock] Increase 1 (Tonewood01Treasure01)", "count": 1, "classification": useful_skip_balancing},
     {"name": "[Stock] Increase 1 (Tonewood06Treasure02)", "count": 1, "classification": useful_skip_balancing},
     {"name": "[Stock] Increase 1 (Claire06Treasure01)", "count": 1, "classification": useful_skip_balancing},
@@ -40,7 +40,7 @@ treasure_stocks_items: List[ItemDict] = [
 ]
 
 
-treasure_legendary_beats_items: List[ItemDict] = [
+treasure_legendary_beats_items: List["ItemDict"] = [
     {"name": "[Beat] Bansheebash", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Beat] Absolute Belter", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Beat] Cuttlebuddy", "count": 1, "classification": ItemClassification.progression},
@@ -49,7 +49,7 @@ treasure_legendary_beats_items: List[ItemDict] = [
 ]
 
 
-treasure_patches_items: List[ItemDict] = [
+treasure_patches_items: List["ItemDict"] = [
     {"name": "[Patch] God Brain", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Patch] HELF", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Patch] Fat Punch Five", "count": 1, "classification": ItemClassification.useful},
@@ -72,7 +72,7 @@ treasure_patches_items: List[ItemDict] = [
 ]
 
 
-treasure_merch_items: List[ItemDict] = [
+treasure_merch_items: List["ItemDict"] = [
     {"name": "[Merch] Emergency Horn", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Merch] Clearbuds", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Merch] Flipped Cap", "count": 1, "classification": ItemClassification.useful},
@@ -83,7 +83,7 @@ treasure_merch_items: List[ItemDict] = [
 ]
 
 
-treasure_mod_items: List[ItemDict] = [
+treasure_mod_items: List["ItemDict"] = [
     {"name": "[Mod] Beefcake Bassquake", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Crowdsurf", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Reckless Shredding", "count": 1, "classification": ItemClassification.useful},
@@ -132,7 +132,7 @@ treasure_mod_items: List[ItemDict] = [
 
 
 # TODO: Progressive / Countable ?
-treasure_old_prize_draw_ticket_items: List[ItemDict] = [
+treasure_old_prize_draw_ticket_items: List["ItemDict"] = [
     {"name": "[Key Merch] Old Prize Draw Ticket 1", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Key Merch] Old Prize Draw Ticket 2", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Key Merch] Old Prize Draw Ticket 3", "count": 1, "classification": ItemClassification.progression},
@@ -145,7 +145,7 @@ treasure_old_prize_draw_ticket_items: List[ItemDict] = [
     {"name": "[Key Merch] Old Prize Draw Ticket 10", "count": 1, "classification": ItemClassification.progression},
 ]
 
-treasure_progression_items: List[ItemDict] = [
+treasure_progression_items: List["ItemDict"] = [
     {"name": "[Key Merch] Your Inner Boot", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Key Merch] 16th Deck Keycard", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Key Merch] 13th Deck Keycard", "count": 1, "classification": ItemClassification.progression},
@@ -153,11 +153,11 @@ treasure_progression_items: List[ItemDict] = [
     {"name": "[Key Merch] Class Changer", "count": 1, "classification": useful_progression},
 ]
 
-real_fillers_items: List[ItemDict] = [
+real_fillers_items: List["ItemDict"] = [
     {"name": "Treasure Money", "count": 12, "classification": ItemClassification.filler},
 ]
 
-treasure_misc_items: List[ItemDict] = [
+treasure_misc_items: List["ItemDict"] = [
     {"name": "[Key Merch] Shiny Spiky Thing", "count": 1, "classification": ItemClassification.filler},
     {"name": "[Key Merch] Shiny Spiky Thing (Fork)", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Key Merch] Barry's Tea Party", "count": 1, "classification": ItemClassification.useful},
@@ -167,7 +167,7 @@ treasure_misc_items: List[ItemDict] = [
 ] + real_fillers_items
 
 
-all_treasure_items: List[ItemDict] = (
+all_treasure_items: List["ItemDict"] = (
     treasure_stocks_items
     + treasure_legendary_beats_items
     + treasure_patches_items
@@ -178,15 +178,15 @@ all_treasure_items: List[ItemDict] = (
     + treasure_misc_items
 )
 
-boss_lock_items: List[ItemDict] = [
-    {"name": "Basement Key", "count": 1, "classification": ItemClassification.progression}, # Beat KKwak
-    {"name": "Babby's corpse", "count": 1, "classification": ItemClassification.progression}, # Beat Babby
-    {"name": "Bus ticket", "count": 1, "classification": ItemClassification.progression}, # Beat Platinium Scrumptious
-    {"name": "Pokalyps concert's invite", "count": 1, "classification": ItemClassification.progression}, # Beat Mutilla
-    {"name": "Claire's comb", "count": 1, "classification": ItemClassification.progression}, # Beat Pokalyps
+boss_lock_items: List["ItemDict"] = [
+    {"name": "Basement Key", "count": 1, "classification": ItemClassification.progression},  # Beat KKwak
+    {"name": "Babby's corpse", "count": 1, "classification": ItemClassification.progression},  # Beat Babby
+    {"name": "Bus ticket", "count": 1, "classification": ItemClassification.progression},  # Beat Platinium Scrumptious
+    {"name": "Pokalyps concert's invite", "count": 1, "classification": ItemClassification.progression},  # Beat Mutilla
+    {"name": "Claire's comb", "count": 1, "classification": ItemClassification.progression},  # Beat Pokalyps
 ]
 
 
-all_items: List[ItemDict] = all_treasure_items 
+all_items: List["ItemDict"] = all_treasure_items
 # Currently out of the global pool, but I will allow the items to be in the pool
 # + boss_lock_items

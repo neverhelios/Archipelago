@@ -327,13 +327,13 @@ all_locations = [
 ]
 
 # Currently the list is static, but I will allow the items to be in the pool
-forced_locations_items: List[Dict] = {
-    "Beat KKwak" : "Basement Key",
-    "Beat Modern Babby" : "Babby's corpse",
-    "Beat Platinum Scrumptious" : "Bus ticket",
-    "Beat Mutilla" : "Pokalyps concert's invite",
-    "Beat Pokalyps" : "Claire's comb",
-    "Beat Boosted KKwak" : "Beat Boosted KKwak",
+forced_locations_items: Dict[str, str] = {
+    "Beat KKwak": "Basement Key",
+    "Beat Modern Babby": "Babby's corpse",
+    "Beat Platinum Scrumptious": "Bus ticket",
+    "Beat Mutilla": "Pokalyps concert's invite",
+    "Beat Pokalyps": "Claire's comb",
+    "Beat Boosted KKwak": "Beat Boosted KKwak",
 }
 
-forced_locations = [location for location, item in forced_locations_items]
+forced_locations = [location for location, item in forced_locations_items.items()]

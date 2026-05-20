@@ -21,6 +21,7 @@ from .rules import DeathbulgeRules
 
 from .subclasses import DeathbulgeRegion, DeathbulgeItem
 
+
 class DeathbulgeWeb(WebWorld):
     theme = "jungle"
 
@@ -60,7 +61,7 @@ class DeathbulgeWorld(World):
 
     item_name_to_id = {item["name"]: i + base_id for i, item in enumerate(all_items)}
 
-    location_name_to_id = {name: id for id, name in enumerate(all_locations, base_id)}
+    location_name_to_id = {name: id for id, name in enumerate(all_locations, base_id) if name not in forced_locations}
 
     # Items can be grouped using their names to allow easy checking if any item
     # from that group has been collected. Group names can also be used for !hint

@@ -1,5 +1,5 @@
 from typing import Dict, Callable, TYPE_CHECKING
-from .items import ItemDict, treasure_legendary_beats_items
+from .items import treasure_legendary_beats_items
 
 if TYPE_CHECKING:
     from . import DeathbulgeWorld
@@ -110,5 +110,5 @@ class DeathbulgeRules:
         for loc in multiworld.get_locations(self.player):
             if loc.name in self.location_rules:
                 loc.access_rule = self.location_rules[loc.name]
-        
+
         multiworld.completion_condition[self.player] = lambda state: state.has("Beat Boosted KKwak", self.player)
