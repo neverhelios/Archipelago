@@ -4,9 +4,9 @@ all_regions: Dict[str, List[str]] = {
     "Dream": [
         "Intro01",
         "Dream02",
-        "Dream03",
-        "Dream04",
-        "Dream05",
+        "Dream03Base",
+        "Dream04Base",
+        "Dream05Base",
         "Dream06",
         "DreamUbers",
     ],
