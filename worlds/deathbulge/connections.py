@@ -7,14 +7,15 @@ all_connections: Dict[str, Dict[str, List[str]]] = {
     "Dream": {
         "Intro01": ["Bopstead - Bopstead01"],
         "Dream02": [],  # TODO: Find where this is ?
-        "Dream03": [
-            "Dream - Dream04",
+        "Dream03Base": [
+            "Dream - Dream04Base",
+            "Dream - Dream06",
             "Pokalyps - Pokalyps05",
         ],
-        "Dream04": ["Dream - Dream05"],
-        "Dream05": ["Dream - Dream06"],
+        "Dream04Base": ["Dream - Dream05Base"],
+        "Dream05Base": ["Dream - Dream03Base"],
         "Dream06": ["Dream - DreamUbers"],
-        "DreamUbers": ["Dream - Dream04"],
+        "DreamUbers": ["Dream - Dream04Base"],
     },
     # Bopstead
     "Bopstead": {
@@ -313,7 +314,7 @@ all_connections: Dict[str, Dict[str, List[str]]] = {
         "Pokalyps05": [
             "Pokalyps - Pokalyps04Middle",
             "Pokalyps - Pokalyps04Lower",
-            "Dream - Dream03",
+            "Dream - Dream03Base",
             "Pokalyps - Pokalyps01",
         ],
         "Pokalyps06": ["Pokalyps - Pokalyps04Lower"],

@@ -22,6 +22,7 @@ class DeathbulgeRules:
 
         self.connection_rules = {
             "TheBus - TheBusElevator -> TheBus - TheBus07": self.has_13_deck_keycard,
+            "TheBus - TheBusElevator -> TheBus - TheBus11": self.has_13_deck_keycard,
             "TheBus - TheBusElevator -> TheBus - TheBus08": self.has_14_deck_keycard,
             "TheBus - TheBusElevator -> TheBus - TheBus10": self.has_16_deck_keycard,
             "Hoho - Hoho01Lower -> BattleOfTheBands - BOTBLobby": self.has_all_legendary_beats,
@@ -33,10 +34,39 @@ class DeathbulgeRules:
             "Hoho - Hoho02 -> Lab - Lab10": self.has_beaten_mutilla,
             "Hoho - Hoho02 -> Pokalyps - Pokalyps01": self.has_beaten_mutilla,
             "ClaireHair - ClaireHair04Lower -> ClaireLower - ClaireLower01": self.has_beaten_pokalyps,
+            "Pokalyps - Pokalyps05 -> Dream - Dream03Base": lambda state: self.has_goth_mod(state)
+            and self.has_defeated_5_first_legends(state),
+            # I know the next condition can be simplified, but this is for documenting the different ways to go here
+            "Dream - Dream03Base -> Dream - Dream04Base": lambda state: self.has_remix_mod(state)
+            or (self.has_well_toned_mod(state) and self.has_distorted_mod(state) and self.has_remix_mod(state)),
+            "Dream - Dream04Base -> Dream - Dream05Base": lambda state: (
+                self.has_avant_garde_mod(state) and self.has_well_toned_mod(state) and self.has_tuner_mod(state)
+            )
+            or (self.has_show_off_mod(state) and self.has_well_toned_mod(state) and self.has_busker_mod(state)),
+            # TODO: Lock Jim house behind the 60 doors (create jim house and contains "Tonewood08Treasure02", "Tonewood08Treasure03", "Tonewood08Treasure04", "[Treasure] PrizeTicketJim")
+            # TODO: Lock Babby Temple behind Inner Boot AND Location ClaireLower (create babby temple in Bopstead01 and contains only "Bopstead01Treasure02",)
+            # TODO: Lock Tonewood arm while the Masstropod (Tonewood05) has not been beaten
+            # TODO: Lock some dream locations behind having some class beats
         }
 
         self.location_rules = {
             "Hoho02Treasure06": self.has_all_legendary_beats,
+            "Dream03Treasure01": lambda state: self.has_avant_garde_mod(state)
+            and self.has_goth_mod(state)
+            and self.has_distorted_mod(state)
+            and self.has_remix_mod(state)
+            and self.has_well_toned_mod(state)
+            and self.has_tuner_mod(state),
+            "Dream03Treasure02": self.has_show_off_mod,
+            "Dream04Treasure01": self.has_tuner_mod,
+            "Dream04Treasure02": lambda state: self.has_avant_garde_mod(state) and self.has_well_toned_mod(state),
+            "Dream04Treasure03": lambda state: self.has_avant_garde_mod(state) and self.has_well_toned_mod(state),
+            "Dream05Treasure01": lambda state: self.has_remix_mod(state)
+            and self.has_busker_mod(state)
+            and self.has_distorted_mod(state),
+            # TODO: Lock the location `Whale25Treasure` behind `[Mod] Zero Hertz`
+            # TODO: Lock the Sampler tuto behind [Beat] RH, [Beat] Gina and [Mod] REMIX Briff ?
+            # TODO: Lock the tickets rewards behind a minimal number of tickets ?
         }
 
         # dict of connection names and the regions checked in the requirements to traverse the exit
@@ -74,10 +104,50 @@ class DeathbulgeRules:
     def has_16_deck_keycard(self, state: CollectionState) -> bool:
         return state.has("[Key Merch] 16th Deck Keycard", self.player)
 
+    # Do NOT confuse with defeating the 5 first legends
     def has_all_legendary_beats(self, state: CollectionState) -> bool:
         for legendary_beat in treasure_legendary_beats_items:
             if not state.has(legendary_beat["name"], self.player):
                 return False
+        # TODO: Add Boss item for last legend, and the last legend beat is not randomized: Change this
+        return True
+
+    def has_defeated_5_first_legends(self, state: CollectionState) -> bool:
+        # TODO: Create boss items for all the legends :)
+        return True
+
+    def has_remix_mod(self, state: CollectionState) -> bool:
+        # TODO: Technically if we have enough beats rinna opens up her shop for Faye and Ian
+        # return state.has("[Mod] REMIX Briff", self.player)
+        return True
+
+    def has_goth_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    def has_busker_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    def has_distorted_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    def has_avant_garde_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    # The following are here if someday I randomize the starting classes
+    def has_show_off_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    def has_well_toned_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
+        return True
+
+    def has_tuner_mod(self, state: CollectionState) -> bool:
+        # TODO: Count the ones in shop as collectable if region can be reached, and return true if we have one of the archipelago MOD
         return True
 
     # Bosses rules

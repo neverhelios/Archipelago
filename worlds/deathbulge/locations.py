@@ -8,17 +8,17 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     "Dream": {
         "Intro01": [],
         "Dream02": [],
-        "Dream03": [
+        "Dream03Base": [
             "Dream03Treasure01",
             "Dream03Treasure02",
             "Dream03Treasure03",
         ],
-        "Dream04": [
+        "Dream04Base": [
             "Dream04Treasure02",
             "Dream04Treasure01",
             "Dream04Treasure03",
         ],
-        "Dream05": [
+        "Dream05Base": [
             "Dream05Treasure01",
         ],
         "Dream06": [],
@@ -27,17 +27,13 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     # Bopstead
     "Bopstead": {
         "Bopstead01": [
-            "[Treasure] PrizeTicketBarry",  # TODO: Find real region
-            "[Treasure] PrizeTicketBrioche",  # TODO: Find real region
-            "[Treasure] PrizeTicketMadam",  # TODO: Find real region
             "[Treasure] MODPODClass",
             "[Treasure] PartyHouseReward",
-            "[Treasure] GeorgeousReward",
             "[Treasure] NelReward",
             "Bopstead01Treasure01",
             "Bopstead01Treasure02",
             "Bopstead01Treasure03",
-            "[Treasure] PrizeTicketPlat",  # TODO: Check if real region
+            "[Treasure] PrizeTicketPlat",
             "[Treasure] FoggyRewardPatch",  # TODO: Check if real region
             "[Treasure] FoggyRewardMoney",  # TODO: Check if real region
             "[Treasure] Foggy300",  # TODO: Check if real region
@@ -48,12 +44,15 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Bopstead02Treasure02",
             "Bopstead02Treasure03",
             "Bopstead02Treasure04",
+            "[Treasure] GeorgeousReward",
         ],
         "Bopstead03": [
             "Bopstead03Treasure01",
+            "[Treasure] PrizeTicketBrioche",
         ],
         "Bopstead04": [
             "Bopstead04Treasure01",
+            "[Treasure] PrizeTicketBarry",
         ],
         "Bopstead05": [],
     },
@@ -68,6 +67,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Tonewood03": [
             "Tonewood03Treasure01",
             "Tonewood03Treasure02",
+            "[Treasure] GillianFork",
         ],
         "Tonewood04": [
             "Tonewood04Treasure01",
@@ -89,9 +89,8 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Tonewood08Treasure02",
             "Tonewood08Treasure03",
             "Tonewood08Treasure04",
-            "[Treasure] TonewoodGig02-Shrubbanshee",  # TODO: Check if real region
-            "[Treasure] GillianFork",  # TODO: Check if real region
             "[Treasure] PrizeTicketJim",  # TODO: Check if real region
+            "[Treasure] TonewoodGig02-Shrubbanshee",
         ],
     },
     # ClaireHair
@@ -111,13 +110,14 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "ClaireHair04Upper": [],
         "ClaireHair05": [
             "Claire05Treasure01",
+            "[Treasure] PrizeTicketMadam",
+            "[Treasure] ClaireGig03-Madam",
         ],
         "ClaireHair06": [
             "Claire06Treasure01",
         ],
         "ClaireHair07": [
             "Claire07Treasure01",
-            "[Treasure] ClaireGig03-Madam",  # TODO: Check if real region
             "Claire07Treasure02",
         ],
         "ClaireHair08": ["Beat KKwak"],
@@ -126,12 +126,10 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     "Basement": {
         "Basement01": [
             "[Treasure] BasementGig01-Cuttlebro",  # TODO: Find real region
-            "Whale25Treasure",  # TODO: Find real region
         ],
         "Basement02": [
             "Basement02Treasure01",
             "Basement02Treasure02",
-            "[Treasure] BasementGig05-Cuttle",  # TODO: Find real region
         ],
         "Basement03": [
             "Basement03Treasure01",
@@ -141,25 +139,25 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Basement04": [
             "[Treasure] BasementGig02-Whale",
             "Basement04Treasure01",
+            "Whale25Treasure",
         ],
         "Basement05": [
+            "[Treasure] BasementGig04-Shutup",
             "Basement05Treasure01",
+            "[Treasure] PrizeTicketBase",
         ],
         "Basement06": [
-            "[Treasure] BasementGig04-Shutup",
             "Basement06Treasure01",
             "Basement06Treasure02",
             "Basement06Treasure03",
-            "[Treasure] PrizeTicketBase",  # TODO: Find real region
+            "[Treasure] BasementGig05-Cuttle",
         ],
         "Basement07": ["Beat Modern Babby"],
         "BasementEndingStudio": [],
     },
     # TheBus
     "TheBus": {
-        "TheBus01": [
-            "[Treasure] PrizeTicketBus",  # TODO: Find real region
-        ],
+        "TheBus01": [],
         "TheBus02": [
             "TheBus02Treasure01",
         ],
@@ -169,11 +167,11 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "TheBus05Treasure01",
             "TheBus05Treasure02",
             "TheBus05Treasure03",
+            "[Treasure] PrizeTicketBus",
         ],
         "TheBus06": [
             "[Treasure] 13DeckKeycard",  # TODO: Check if real region
-            "[Treasure] 14DeckKeycard",  # TODO: Check if real region
-            "[Treasure] TheBusGig02-Weaver",  # TODO: Check if real region
+            "[Treasure] 14DeckKeycard",
             "[Treasure] TheBusGig01-Glamourella",
         ],
         "TheBus07": [],
@@ -184,6 +182,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         ],
         "TheBus09": [
             "TheBus09Treasure01",
+            "[Treasure] TheBusGig02-Weaver",
         ],
         "TheBus10": [
             "TheBus10Treasure01",
@@ -245,8 +244,8 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Beat Mutilla",
         ],
         "Lab11": [
-            "[Treasure] LabGig02-WIP",  # TODO: Check if real region
-            "[Treasure] PrizeTicketLab",  # TODO: Find real region
+            "[Treasure] LabGig02-WIP",
+            "[Treasure] PrizeTicketLab",
         ],
         "Lab12": [
             "Lab12Treasure01",
