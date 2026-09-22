@@ -158,8 +158,8 @@ real_fillers_items: List["ItemDict"] = [
 ]
 
 treasure_misc_items: List["ItemDict"] = [
-    {"name": "[Key Merch] Shiny Spiky Thing", "count": 1, "classification": ItemClassification.filler},
-    {"name": "[Key Merch] Shiny Spiky Thing (Fork)", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Key Merch] Shiny Spiky Thing", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Key Merch] Shiny Spiky Thing (Fork)", "count": 1, "classification": ItemClassification.filler},
     {"name": "[Key Merch] Barry's Tea Party", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Key Merch] Glam Reader", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Beat] Rinna", "count": 1, "classification": ItemClassification.useful},
