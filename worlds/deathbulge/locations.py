@@ -31,8 +31,6 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "[Treasure] PartyHouseReward",
             "[Treasure] NelReward",
             "Bopstead01Treasure01",
-            "Bopstead01Treasure02",
-            "Bopstead01Treasure03",
             "[Treasure] PrizeTicketPlat",
             "[Treasure] FoggyRewardPatch",
             "[Treasure] Foggy300",

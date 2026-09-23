@@ -94,7 +94,7 @@ treasure_mod_items: List["ItemDict"] = [
     {"name": "[Mod] Everybody Broken Bones", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Erasure", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] GONG", "count": 1, "classification": ItemClassification.useful},
-    {"name": "[Mod] Zero Hertz", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] Zero Hertz", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Mod] Beefy Double", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Heart Kickstart", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Crashy Crescendo", "count": 1, "classification": ItemClassification.useful},
@@ -113,7 +113,7 @@ treasure_mod_items: List["ItemDict"] = [
     {"name": "[Mod] Robin Hunk Special", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Pyrotechnics", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] ugh", "count": 1, "classification": ItemClassification.useful},
-    {"name": "[Mod] REMIX Briff", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Mod] REMIX Briff", "count": 1, "classification": ItemClassification.progression},
     {"name": "[Mod] Beam Team", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Axe of Righteousness", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Mod] Hypercussion", "count": 1, "classification": ItemClassification.useful},
@@ -162,8 +162,8 @@ treasure_misc_items: List["ItemDict"] = [
     {"name": "[Key Merch] Shiny Spiky Thing (Fork)", "count": 1, "classification": ItemClassification.filler},
     {"name": "[Key Merch] Barry's Tea Party", "count": 1, "classification": ItemClassification.useful},
     {"name": "[Key Merch] Glam Reader", "count": 1, "classification": ItemClassification.useful},
-    {"name": "[Beat] Rinna", "count": 1, "classification": ItemClassification.useful},
-    {"name": "[Beat] RH", "count": 1, "classification": ItemClassification.useful},
+    {"name": "[Beat] Rinna", "count": 1, "classification": ItemClassification.progression},
+    {"name": "[Beat] RH", "count": 1, "classification": ItemClassification.progression},
 ] + real_fillers_items
 
 

@@ -29,7 +29,8 @@ class DeathbulgeRules:
             # Connections with indirect conditions ? (At least not when hard boss lock)
             "Bopstead - Bopstead02 -> Basement - Basement01": self.has_beaten_kkwak_claire,
             "Bopstead - Bopstead02 -> TheBus - TheBus01": self.has_beaten_modern_babby,
-            "TheBus - TheBus10 -> Hoho - Hoho01-Bus": self.has_beaten_platinum_scrumptious,
+            "TheBus - TheBus10 -> Hoho - Hoho01-Bus": lambda state: self.has_beaten_platinum_scrumptious(state)
+            and self.has_briff_tuto_prerequisites(state),
             "Lab - Lab10 -> Hoho - Hoho02": self.has_beaten_mutilla,
             "Hoho - Hoho02 -> Lab - Lab10": self.has_beaten_mutilla,
             "Hoho - Hoho02 -> Pokalyps - Pokalyps01": self.has_beaten_mutilla,
@@ -64,8 +65,11 @@ class DeathbulgeRules:
             "Dream05Treasure01": lambda state: self.has_remix_mod(state)
             and self.has_busker_mod(state)
             and self.has_distorted_mod(state),
-            # TODO: Lock the location `Whale25Treasure` behind `[Mod] Zero Hertz`
-            # TODO: Lock the Sampler tuto behind [Beat] RH, [Beat] Gina and [Mod] REMIX Briff ?
+            "[Treasure] BasementGig01-Cuttlebro": self.has_cuttlebudy,
+            "[Treasure] GillianFork": self.has_spiky_thing,
+            "Tonewood03Treasure02": self.has_spiky_thing,
+            "Whale25Treasure": self.has_zero_hertz,
+            "[Treasure] NelReward": self.has_zero_hertz,
             # TODO: Lock the tickets rewards behind a minimal number of tickets ?
         }
 
@@ -103,6 +107,22 @@ class DeathbulgeRules:
 
     def has_16_deck_keycard(self, state: CollectionState) -> bool:
         return state.has("[Key Merch] 16th Deck Keycard", self.player)
+
+    def has_cuttlebudy(self, state: CollectionState) -> bool:
+        return state.has("[Beat] Cuttlebuddy", self.player)
+
+    def has_spiky_thing(self, state: CollectionState) -> bool:
+        return state.has("[Key Merch] Shiny Spiky Thing", self.player)
+
+    def has_zero_hertz(self, state: CollectionState) -> bool:
+        return state.has("[Mod] Zero Hertz", self.player)
+
+    def has_briff_tuto_prerequisites(self, state: CollectionState) -> bool:
+        return (
+            state.has("[Beat] Rinna", self.player)
+            and state.has("[Beat] RH", self.player)
+            and state.has("[Mod] REMIX Briff", self.player)
+        )
 
     # Do NOT confuse with defeating the 5 first legends
     def has_all_legendary_beats(self, state: CollectionState) -> bool:
