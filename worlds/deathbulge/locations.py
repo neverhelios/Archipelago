@@ -34,9 +34,8 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Bopstead01Treasure02",
             "Bopstead01Treasure03",
             "[Treasure] PrizeTicketPlat",
-            "[Treasure] FoggyRewardPatch",  # TODO: Check if real region
-            "[Treasure] FoggyRewardMoney",  # TODO: Check if real region
-            "[Treasure] Foggy300",  # TODO: Check if real region
+            "[Treasure] FoggyRewardPatch",
+            "[Treasure] Foggy300",
         ],
         "Bopstead02": [
             "[Treasure] DaemoPatch",
@@ -89,7 +88,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Tonewood08Treasure02",
             "Tonewood08Treasure03",
             "Tonewood08Treasure04",
-            "[Treasure] PrizeTicketJim",  # TODO: Check if real region
+            "[Treasure] PrizeTicketJim",
             "[Treasure] TonewoodGig02-Shrubbanshee",
         ],
     },
@@ -125,7 +124,6 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     # Basement
     "Basement": {
         "Basement01": [
-            "[Treasure] BasementGig01-Cuttlebro",  # TODO: Find real region
         ],
         "Basement02": [
             "Basement02Treasure01",
@@ -135,6 +133,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Basement03Treasure01",
             "Basement03Treasure02",
             "Basement03Treasure03",
+            "[Treasure] BasementGig01-Cuttlebro",
         ],
         "Basement04": [
             "[Treasure] BasementGig02-Whale",
@@ -198,8 +197,8 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
     # Hoho
     "Hoho": {
         "Hoho01Lower": [
-            "Hoho01Treasure01",  # TODO: Verify if effectively lower
-            "Hoho01Treasure02",  # TODO: Verify if effectively lower
+            "Hoho01Treasure01",
+            "Hoho01Treasure02",
         ],
         "Hoho01Observatory": [],
         "Hoho01-Bus": [],
@@ -210,7 +209,6 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Hoho02Treasure04",
             "Hoho02Treasure05",
             "Hoho02Treasure06",
-            "[Treasure] PrizeTicketHoho",  # TODO: Check if real region
         ],
     },
     # Lab
@@ -241,6 +239,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Lab10": [
             "Lab10Treasure01",
             "Lab10Treasure02",
+            "[Treasure] PrizeTicketHoho",
             "Beat Mutilla",
         ],
         "Lab11": [
@@ -273,6 +272,7 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
         "Pokalyps05": [
             "Pokalyps05Treasure01",
             "Pokalyps05Treasure02",
+            "[Treasure] PrizeTicketPok",
         ],
         "Pokalyps06": [
             "Pokalyps06Treasure01",
@@ -288,7 +288,6 @@ regions_to_locations: Dict[str, Dict[str, List[str]]] = {
             "Pokalyps10Treasure01",
         ],
         "Pokalyps11": [
-            "[Treasure] PrizeTicketPok",  # TODO: Find real region
             "Beat Pokalyps",
         ],
     },
